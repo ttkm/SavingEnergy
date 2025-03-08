@@ -342,13 +342,20 @@ function preloadBackgroundImages() {
     const heroSection = document.getElementById('hero');
     if (!heroSection) return;
     
+    // Add a loading class to the body
+    document.body.classList.add('images-loading');
+    
     // Get the background image URL from the computed style
     const computedStyle = window.getComputedStyle(heroSection);
     const backgroundImage = computedStyle.backgroundImage;
     
     // Extract the URL from the background-image property
     const urlMatch = /url\(['"]?([^'"]+)['"]?\)/g.exec(backgroundImage);
-    if (!urlMatch || !urlMatch[1]) return;
+    if (!urlMatch || !urlMatch[1]) {
+        document.body.classList.remove('images-loading');
+        document.body.classList.add('bg-loaded');
+        return;
+    }
     
     // Preload the image
     const img = new Image();
@@ -356,9 +363,41 @@ function preloadBackgroundImages() {
     
     // When the image is loaded, add a class to the body
     img.onload = function() {
+        document.body.classList.remove('images-loading');
         document.body.classList.add('bg-loaded');
         console.log('Background image loaded');
     };
+    
+    // If image takes too long, still remove loading class after 3 seconds
+    setTimeout(() => {
+        if (document.body.classList.contains('images-loading')) {
+            document.body.classList.remove('images-loading');
+            document.body.classList.add('bg-loaded');
+            console.log('Background image load timeout');
+        }
+    }, 3000);
+    
+    // Preload all other images
+    preloadContentImages();
+}
+
+// Preload content images
+function preloadContentImages() {
+    // Find all images that aren't already loaded
+    const images = document.querySelectorAll('img:not([loading="eager"])');
+    
+    // Add lazy loading attribute to all images
+    images.forEach(img => {
+        if (!img.hasAttribute('loading')) {
+            img.setAttribute('loading', 'lazy');
+        }
+        
+        // Add width and height if not present to prevent layout shifts
+        if (!img.hasAttribute('width') && !img.hasAttribute('height')) {
+            img.style.maxWidth = '100%';
+            img.style.height = 'auto';
+        }
+    });
 }
 
 // Debounce function to limit how often a function is called during events like scrolling

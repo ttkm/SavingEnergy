@@ -97,6 +97,7 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+  transition: opacity 0.3s ease;
 }
 
 ul {
@@ -210,7 +211,8 @@ header .container {
 
 .logo img {
   height: 50px;
-  width: auto;
+  width: 50px;
+  object-fit: contain;
   margin-right: 15px;
   border-radius: 0;
   box-shadow: none;
@@ -1254,7 +1256,9 @@ footer {
     }
     
     .logo img {
-        max-width: 40px;
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
     }
     
     .mobile-menu-btn {
@@ -1338,6 +1342,13 @@ footer {
     
     .logo-text {
         display: none;
+    }
+    
+    .logo img {
+        height: 35px;
+        width: 35px;
+        object-fit: contain;
+        margin-right: 10px;
     }
     
     .hero-content h2 {
@@ -1572,4 +1583,35 @@ footer {
     .about-features {
         grid-template-columns: 1fr;
     }
+}
+
+/* Image loading states */
+.images-loading {
+    background-color: #f8f9fa;
+}
+
+.images-loading #hero {
+    background-color: rgba(0, 0, 0, 0.05);
+    transition: background-image 0.5s ease-in;
+}
+
+/* Prevent layout shifts during image loading */
+img:not([width]):not([height]) {
+    opacity: 0;
+}
+
+img[width][height] {
+    opacity: 1;
+}
+
+/* Fade in images when loaded */
+img.loaded {
+    opacity: 1;
+}
+
+/* Optimize background images */
+[style*="background-image"] {
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s ease;
 }

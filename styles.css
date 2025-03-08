@@ -583,24 +583,61 @@ nav.active ul {
 
 .about-image {
   position: relative;
-  height: 650px;
+  height: 800px; /* Increased height for desktop to match text content */
+  max-height: none; /* Remove max-height constraint */
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  background-color: #f5f5f5; /* Light background in case image doesn't load */
+  min-height: 300px; /* Ensure there's at least some space */
+  opacity: 1; /* Changed from 0.8 to ensure visibility */
+  transition: transform 0.3s ease; /* Only transition transform, not opacity */
+  width: 100%; /* Ensure full width */
 }
 
 .about-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  object-fit: cover; /* Changed from contain to cover to fill the container */
+  display: block; /* Ensures no extra space below the image */
   transition: transform 0.3s ease;
 }
 
 .about-image img:hover {
   transform: scale(1.02);
+}
+
+/* Ensure about image is responsive on smaller screens */
+@media (max-width: 1200px) {
+  .about-image {
+    height: 700px;
+  }
+}
+
+@media (max-width: 992px) {
+  .about-image {
+    height: 500px;
+    margin-top: 30px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-image {
+    height: 400px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-image {
+    height: 300px;
+    width: 100%;
+  }
 }
 
 /* Testimonials Section */
@@ -707,6 +744,7 @@ nav.active ul {
   border-radius: 10px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  width: 100%; /* Ensure it takes full width of container */
 }
 
 .contact-info {
@@ -853,7 +891,8 @@ nav.active ul {
 }
 
 .form-group {
-  margin-bottom: 0;
+  margin-bottom: 20px;
+  width: 100%; /* Ensure form groups take full width */
 }
 
 .form-group label {
@@ -867,15 +906,13 @@ nav.active ul {
 .form-group input,
 .form-group textarea,
 .form-group select {
-  width: 100%;
+  width: 100%; /* Ensure inputs take full width */
   padding: 12px 15px;
-  border: 1px solid #e1e1e1;
-  border-radius: 8px;
-  font-family: var(--body-font);
-  font-size: 1rem;
-  color: var(--dark-color);
+  border-radius: 5px;
+  border: 1px solid var(--light-gray);
+  font-family: inherit;
+  font-size: 16px;
   transition: all 0.3s ease;
-  background-color: #f9f9f9;
 }
 
 .form-group input::placeholder,
@@ -889,6 +926,66 @@ nav.active ul {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(14, 102, 85, 0.1);
   background-color: var(--light-color);
+}
+
+.form-group.focused label {
+  color: var(--primary-color);
+}
+
+.form-group.focused input,
+.form-group.focused textarea {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+}
+
+.form-group.has-error label {
+  color: #e74c3c;
+}
+
+.form-group.has-error input,
+.form-group.has-error textarea {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+}
+
+.form-group.has-error::after {
+  content: attr(data-error);
+  display: block;
+  font-size: 12px;
+  color: #e74c3c;
+  margin-top: 5px;
+}
+
+/* Form validation styles */
+input:invalid,
+textarea:invalid {
+  border-color: #e74c3c;
+}
+
+input:focus:invalid,
+textarea:focus:invalid {
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+}
+
+/* Form success message */
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.form-success.visible {
+  display: block;
+  animation: fadeIn 0.5s ease;
+}
+
+.form-success i {
+  font-size: 48px;
+  color: #2ecc71;
+  margin-bottom: 15px;
 }
 
 .form-footer {
@@ -1489,6 +1586,7 @@ footer {
 @media (max-width: 992px) {
     .contact-content {
         grid-template-columns: 1fr;
+        gap: 0;
     }
     
     .contact-info {
@@ -1498,6 +1596,7 @@ footer {
     
     .contact-form-container {
         order: 1;
+        border-radius: 10px 10px 0 0;
     }
     
     .emergency-contact {
@@ -1528,7 +1627,7 @@ footer {
     
     .contact-info,
     .contact-form-container {
-        padding: 30px;
+        padding: 25px;
     }
     
     .emergency-contact {
@@ -1561,27 +1660,52 @@ footer {
     }
 }
 
-@media (max-width: 480px) {
-    .emergency-contact {
-        padding: 15px;
+@media (max-width: 576px) {
+    .contact-content {
+        margin-top: 30px;
+        border-radius: 8px;
     }
     
-    .emergency-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
+    .contact-info,
+    .contact-form-container {
+        padding: 20px;
     }
     
-    .emergency-text h3 {
-        font-size: 16px;
+    .form-group label {
+        font-size: 14px;
+        margin-bottom: 5px;
     }
     
-    .emergency-text p {
+    .form-group input,
+    .form-group textarea {
+        padding: 8px 10px;
         font-size: 14px;
     }
     
-    .about-features {
-        grid-template-columns: 1fr;
+    .btn-primary {
+        width: 100%; /* Make button full width on small screens */
+        padding: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .contact-info,
+    .contact-form-container {
+        padding: 15px;
+    }
+    
+    .contact-header h3,
+    .form-header h3 {
+        font-size: 20px;
+    }
+    
+    .contact-header p,
+    .form-header p {
+        font-size: 14px;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
     }
 }
 
@@ -1614,4 +1738,31 @@ img.loaded {
     background-size: cover;
     background-position: center;
     transition: background-image 0.3s ease;
+}
+
+.about-image.image-error {
+  background-color: #f8f8f8;
+  border: 1px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.about-image.image-error::before {
+  content: 'Image could not be loaded';
+  font-style: italic;
+  color: #888;
+}
+
+/* Add a class to body when all images are loaded */
+body.images-loaded .about-image {
+  opacity: 1;
+}
+
+/* Initial state for about image */
+.about-image {
+  opacity: 1; /* Changed from 0.8 to ensure visibility */
+  transition: transform 0.3s ease; /* Only transition transform, not opacity */
 }

@@ -1,33 +1,28 @@
 /* 
-* Saving Energy Solutions - Main Stylesheet
-* A professional and minimalistic design for an energy conservation company
+* Saving Energy Solutions - Styles
 */
 
-/* ===== VARIABLES ===== */
 :root {
-  /* Color Scheme - Updated for better professionalism */
-  --primary-color: #0e6655; /* Darker teal green - main brand color */
-  --secondary-color: #0a4b3e; /* Darker shade of primary */
-  --accent-color: #16a085; /* Vibrant green for accents */
-  --dark-color: #2c3e50; /* Dark blue-gray instead of black */
-  --light-color: #fff; /* Slightly off-white for better eye comfort */
-  --gray-color: #7f8c8d; /* Softer gray */
-  --light-gray: #f8f9fa; /* Very light gray with blue tint */
+
+  --primary-color: #0e6655;
+  --secondary-color: #0a4b3e;
+  --accent-color: #16a085;
+  --dark-color: #2c3e50;
+  --light-color: #fff;
+  --gray-color: #7f8c8d;
+  --light-gray: #f8f9fa;
   --transition: all 0.3s ease;
-  --header-gradient: linear-gradient(to right, #f9f9f9, #0e6655); /* Updated gradient */
+  --header-gradient: linear-gradient(to right, #f9f9f9, #0e6655);
   
-  /* Typography */
   --heading-font: 'Poppins', sans-serif;
   --body-font: 'Quicksand', sans-serif;
   
-  /* Spacing */
   --section-padding: 5rem 0;
   --container-padding: 0 1.5rem;
   --border-radius: 8px;
   --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* Dark Theme Colors */
 [data-theme="dark"] {
   --primary-color: #16a085;
   --secondary-color: #2ecc71;
@@ -38,7 +33,6 @@
   --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* ===== RESET & BASE STYLES ===== */
 * {
   margin: 0;
   padding: 0;
@@ -104,7 +98,6 @@ ul {
   list-style: none;
 }
 
-/* ===== UTILITY CLASSES ===== */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -184,7 +177,6 @@ section:nth-child(even) {
   background-color: var(--light-gray);
 }
 
-/* ===== HEADER & NAVIGATION ===== */
 header {
   background-color: rgba(255, 255, 255, 0.95);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -268,7 +260,6 @@ nav ul li a:focus {
   box-shadow: none;
 }
 
-/* Mobile Menu Styles */
 .mobile-menu-btn {
     display: none;
     flex-direction: column;
@@ -306,14 +297,12 @@ nav ul li a:focus {
     visibility: visible;
 }
 
-/* Make sure nav is active when mobile menu is open */
 nav.active ul {
     transform: translateX(0);
     opacity: 1;
     visibility: visible;
 }
 
-/* Mobile menu button active state */
 .mobile-menu-btn.active span:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
 }
@@ -326,7 +315,6 @@ nav.active ul {
     transform: translateY(-9px) rotate(-45deg);
 }
 
-/* Hero Section */
 #hero {
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('images/Image1.png');
   background-size: cover;
@@ -338,9 +326,9 @@ nav.active ul {
   color: white;
   position: relative;
   overflow: hidden;
-  will-change: transform; /* Optimize for animations */
-  transform: translateZ(0); /* Force GPU acceleration */
-  backface-visibility: hidden; /* Prevent flickering */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .hero-content {
@@ -408,7 +396,6 @@ nav.active ul {
   }
 }
 
-/* Services Section */
 #services {
   background-color: var(--light-color);
   padding: var(--section-padding);
@@ -583,8 +570,8 @@ nav.active ul {
 
 .about-image {
   position: relative;
-  height: 800px; /* Increased height for desktop to match text content */
-  max-height: none; /* Remove max-height constraint */
+  height: 800px; 
+  max-height: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -592,18 +579,18 @@ nav.active ul {
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   max-width: 100%;
-  background-color: #f5f5f5; /* Light background in case image doesn't load */
-  min-height: 300px; /* Ensure there's at least some space */
-  opacity: 1; /* Changed from 0.8 to ensure visibility */
-  transition: transform 0.3s ease; /* Only transition transform, not opacity */
-  width: 100%; /* Ensure full width */
+  background-color: #f5f5f5;
+  min-height: 300px;
+  opacity: 1;
+  transition: transform 0.3s ease;
+  width: 100%;
 }
 
 .about-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Changed from contain to cover to fill the container */
-  display: block; /* Ensures no extra space below the image */
+  object-fit: cover;
+  display: block;
   transition: transform 0.3s ease;
 }
 
@@ -611,7 +598,6 @@ nav.active ul {
   transform: scale(1.02);
 }
 
-/* Ensure about image is responsive on smaller screens */
 @media (max-width: 1200px) {
   .about-image {
     height: 700px;
@@ -640,7 +626,6 @@ nav.active ul {
   }
 }
 
-/* Testimonials Section */
 #testimonials {
   background-color: var(--light-gray);
   overflow: hidden;
@@ -675,13 +660,11 @@ nav.active ul {
   position: relative;
 }
 
-/* Remove the hover effect that adds border and shadow */
 .testimonial:hover {
   transform: none;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* Also remove the testimonial container hover effect */
 .testimonial-container:hover {
   animation-play-state: paused;
 }
@@ -721,7 +704,6 @@ nav.active ul {
   }
 }
 
-/* Enhanced Contact Section */
 #contact {
   background: linear-gradient(to bottom, var(--light-color) 0%, var(--light-gray) 100%);
   position: relative;
@@ -744,7 +726,7 @@ nav.active ul {
   border-radius: 10px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 100%; /* Ensure it takes full width of container */
+  width: 100%;
 }
 
 .contact-info {
@@ -892,7 +874,7 @@ nav.active ul {
 
 .form-group {
   margin-bottom: 20px;
-  width: 100%; /* Ensure form groups take full width */
+  width: 100%;
 }
 
 .form-group label {
@@ -906,7 +888,7 @@ nav.active ul {
 .form-group input,
 .form-group textarea,
 .form-group select {
-  width: 100%; /* Ensure inputs take full width */
+  width: 100%;
   padding: 12px 15px;
   border-radius: 5px;
   border: 1px solid var(--light-gray);
@@ -956,7 +938,6 @@ nav.active ul {
   margin-top: 5px;
 }
 
-/* Form validation styles */
 input:invalid,
 textarea:invalid {
   border-color: #e74c3c;
@@ -967,7 +948,6 @@ textarea:focus:invalid {
   box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
 }
 
-/* Form success message */
 .form-success {
   display: none;
   text-align: center;
@@ -996,7 +976,6 @@ textarea:focus:invalid {
   margin-top: 10px;
 }
 
-/* Section Animation */
 .section-hidden {
   opacity: 0;
   transform: translateY(30px);
@@ -1008,7 +987,6 @@ textarea:focus:invalid {
   transform: translateY(0);
 }
 
-/* Improved button styles */
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   border-radius: 50px;
@@ -1021,7 +999,6 @@ textarea:focus:invalid {
   box-shadow: 0 8px 20px rgba(14, 102, 85, 0.3);
 }
 
-/* Spinner Animation */
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -1033,7 +1010,6 @@ textarea:focus:invalid {
   margin-right: 5px;
 }
 
-/* Button styles when disabled */
 .btn:disabled {
   opacity: 0.8;
   cursor: not-allowed;
@@ -1044,7 +1020,6 @@ textarea:focus:invalid {
   box-shadow: none;
 }
 
-/* Loading spinner animation */
 .loading-spinner {
   display: inline-block;
   width: 20px;
@@ -1056,7 +1031,6 @@ textarea:focus:invalid {
   margin-right: 10px;
 }
 
-/* Success message styling */
 .success-message {
   background-color: rgba(14, 102, 85, 0.1);
   border-radius: 8px;
@@ -1097,7 +1071,6 @@ textarea:focus:invalid {
   margin-top: 15px;
 }
 
-/* Add a scroll indicator for the header */
 .scroll-indicator {
   position: fixed;
   top: 0;
@@ -1109,7 +1082,6 @@ textarea:focus:invalid {
   transition: width 0.3s ease;
 }
 
-/* Add a back-to-top button */
 .back-to-top {
   position: fixed;
   bottom: 30px;
@@ -1140,7 +1112,6 @@ textarea:focus:invalid {
   transform: translateY(-5px);
 }
 
-/* Emergency Contact Section */
 .emergency-contact {
   display: flex;
   align-items: center;
@@ -1194,7 +1165,6 @@ textarea:focus:invalid {
   text-decoration: underline;
 }
 
-/* Footer Styles */
 footer {
   background-color: var(--dark-color);
   color: white;
@@ -1297,7 +1267,6 @@ footer {
   margin: 0;
 }
 
-/* Social icons in footer */
 .social-icons {
   display: flex;
   gap: 1rem;
@@ -1322,7 +1291,6 @@ footer {
   transform: translateY(-3px);
 }
 
-/* Privacy note and form button */
 .privacy-note {
   font-size: 14px;
   color: var(--gray-color);
@@ -1338,7 +1306,6 @@ footer {
   color: var(--accent-color);
 }
 
-/* Enhanced Responsive Styles */
 @media (max-width: 992px) {
     .container {
         padding: 0 20px;
@@ -1517,7 +1484,6 @@ footer {
     }
 }
 
-/* Project Demos Section */
 #project-demos {
   background-color: var(--light-color);
   padding: 4rem 0;
@@ -1582,7 +1548,6 @@ footer {
     color: var(--accent-color);
 }
 
-/* Responsive styles for contact section */
 @media (max-width: 992px) {
     .contact-content {
         grid-template-columns: 1fr;
@@ -1683,7 +1648,7 @@ footer {
     }
     
     .btn-primary {
-        width: 100%; /* Make button full width on small screens */
+        width: 100%;
         padding: 12px;
     }
 }
@@ -1709,7 +1674,6 @@ footer {
     }
 }
 
-/* Image loading states */
 .images-loading {
     background-color: #f8f9fa;
 }
@@ -1719,7 +1683,6 @@ footer {
     transition: background-image 0.5s ease-in;
 }
 
-/* Prevent layout shifts during image loading */
 img:not([width]):not([height]) {
     opacity: 0;
 }
@@ -1728,12 +1691,10 @@ img[width][height] {
     opacity: 1;
 }
 
-/* Fade in images when loaded */
 img.loaded {
     opacity: 1;
 }
 
-/* Optimize background images */
 [style*="background-image"] {
     background-size: cover;
     background-position: center;
@@ -1756,13 +1717,11 @@ img.loaded {
   color: #888;
 }
 
-/* Add a class to body when all images are loaded */
 body.images-loaded .about-image {
   opacity: 1;
 }
 
-/* Initial state for about image */
 .about-image {
-  opacity: 1; /* Changed from 0.8 to ensure visibility */
-  transition: transform 0.3s ease; /* Only transition transform, not opacity */
+  opacity: 1;
+  transition: transform 0.3s ease;
 }

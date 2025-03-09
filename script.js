@@ -86,18 +86,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Update scroll indicator and back to top button on scroll with smoother animation
     window.addEventListener('scroll', function() {
         // Update scroll indicator
         const scrollPosition = window.scrollY;
         const totalHeight = document.body.scrollHeight - window.innerHeight;
         const scrollPercentage = (scrollPosition / totalHeight) * 100;
         
-        // Use requestAnimationFrame for smoother animation
         requestAnimationFrame(() => {
             scrollIndicator.style.width = scrollPercentage + '%';
             
-            // Show/hide back to top button with smoother transition
             if (scrollPosition > 300) {
                 backToTopBtn.classList.add('visible');
             } else {
@@ -106,16 +103,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Enhanced form input styling
     const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
-        // Add input focus effects with improved animation
         const formInputs = contactForm.querySelectorAll('input, textarea, select');
         formInputs.forEach(input => {
             const formGroup = input.parentElement;
             
-            // Add focused class when input has value or is focused
             const checkInputValue = () => {
                 if (input.value) {
                     formGroup.classList.add('has-value');
@@ -124,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             };
             
-            // Check initial value
             checkInputValue();
             
             input.addEventListener('focus', () => {
@@ -134,26 +127,90 @@ document.addEventListener('DOMContentLoaded', function() {
             input.addEventListener('blur', () => {
                 formGroup.classList.remove('focused');
                 checkInputValue();
+                
+                if (input.value) {
+                    if (input.id === 'email' && !isValidEmail(input.value)) {
+                        formGroup.classList.add('has-error');
+                        input.setCustomValidity('Please enter a valid email address');
+                    } else if (input.id === 'phone' && input.value && !isValidPhone(input.value)) {
+                        formGroup.classList.add('has-error');
+                        input.setCustomValidity('Please enter a valid phone number');
+                    } else {
+                        formGroup.classList.remove('has-error');
+                        input.setCustomValidity('');
+                    }
+                }
             });
             
-            input.addEventListener('input', checkInputValue);
+            input.addEventListener('input', () => {
+                checkInputValue();
+                formGroup.classList.remove('has-error');
+                input.setCustomValidity('');
+            });
         });
         
-        // Add loading state to submit button
-        contactForm.addEventListener('submit', function() {
+        // Add form validation before submit
+        contactForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            
+            if (emailInput && !isValidEmail(emailInput.value)) {
+                emailInput.parentElement.classList.add('has-error');
+                emailInput.setCustomValidity('Please enter a valid email address');
+                isValid = false;
+            }
+            
+            if (phoneInput && phoneInput.value && !isValidPhone(phoneInput.value)) {
+                phoneInput.parentElement.classList.add('has-error');
+                phoneInput.setCustomValidity('Please enter a valid phone number');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                return false;
+            }
+            
             const submitButton = this.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
         });
+        
+        const adjustFormForMobile = () => {
+            const formWidth = contactForm.offsetWidth;
+            const formRows = contactForm.querySelectorAll('.form-row');
+            
+            if (formWidth < 500) {
+                formRows.forEach(row => {
+                    row.style.display = 'block';
+                });
+            } else {
+                formRows.forEach(row => {
+                    row.style.display = 'grid';
+                });
+            }
+        };
+        
+        adjustFormForMobile();
+        window.addEventListener('resize', debounce(adjustFormForMobile));
     }
     
-    // Initialize new animations and features
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    function isValidPhone(phone) {
+        const phoneRegex = /^[\d\s\-\(\)\.+]+$/;
+        return phoneRegex.test(phone);
+    }
+    
     highlightNavLink();
     parallaxEffect();
     revealSections();
     animateFeatures();
     
-    // Add service card hover effects
     const serviceCards = document.querySelectorAll('.service-card');
     serviceCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
@@ -171,7 +228,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Animate counters when they come into view
     const statsSection = document.querySelector('.about-features');
     if (statsSection) {
         const observer = new IntersectionObserver((entries) => {
@@ -184,28 +240,23 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(statsSection);
     }
     
-    // Add animation class to body after page loads
     setTimeout(() => {
         document.body.classList.add('loaded');
     }, 300);
     
-    // Preload background images
     preloadBackgroundImages();
 });
 
-// Helper function to validate email format
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-// Helper function to validate phone format
 function isValidPhone(phone) {
     const phoneRegex = /^[\d\s\-\(\)]+$/;
     return phoneRegex.test(phone);
 }
 
-// Function to highlight active navigation link based on scroll position
 function highlightNavLink() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav ul li a');
@@ -230,7 +281,6 @@ function highlightNavLink() {
             }
         });
         
-        // Check if we're at the top of the page
         if (window.pageYOffset < 100) {
             navLinks.forEach(link => {
                 if (link.getAttribute('href') === '#hero') {
@@ -239,7 +289,6 @@ function highlightNavLink() {
             });
         }
         
-        // Function to check if element is in viewport
         function isInViewport(element) {
             const rect = element.getBoundingClientRect();
             return (
@@ -250,7 +299,6 @@ function highlightNavLink() {
             );
         }
         
-        // Function to animate elements when they come into view
         function animateOnScroll() {
             const animatedElements = document.querySelectorAll('.animate-on-scroll');
             
@@ -261,19 +309,17 @@ function highlightNavLink() {
             });
         }
         
-        // Call the function on scroll
         animateOnScroll();
     });
 }
 
-// Add animated counters for statistics
 function animateCounters() {
     const counters = document.querySelectorAll('.counter');
     
     counters.forEach(counter => {
         const target = +counter.getAttribute('data-target');
-        const duration = 2000; // 2 seconds
-        const increment = target / (duration / 16); // 60fps
+        const duration = 2000;
+        const increment = target / (duration / 16);
         
         let current = 0;
         const updateCounter = () => {
@@ -290,7 +336,6 @@ function animateCounters() {
     });
 }
 
-// Add parallax effect to hero section
 function parallaxEffect() {
     const hero = document.getElementById('hero');
     
@@ -302,7 +347,6 @@ function parallaxEffect() {
     }
 }
 
-// Add smooth reveal animations for sections
 function revealSections() {
     const sections = document.querySelectorAll('section');
     
@@ -328,7 +372,6 @@ function revealSections() {
     });
 }
 
-// Function to animate features on scroll
 function animateFeatures() {
     const features = document.querySelectorAll('.feature');
     
@@ -337,19 +380,15 @@ function animateFeatures() {
     });
 }
 
-// Preload background images to prevent glitching
 function preloadBackgroundImages() {
     const heroSection = document.getElementById('hero');
     if (!heroSection) return;
     
-    // Add a loading class to the body
     document.body.classList.add('images-loading');
-    
-    // Get the background image URL from the computed style
+
     const computedStyle = window.getComputedStyle(heroSection);
     const backgroundImage = computedStyle.backgroundImage;
     
-    // Extract the URL from the background-image property
     const urlMatch = /url\(['"]?([^'"]+)['"]?\)/g.exec(backgroundImage);
     if (!urlMatch || !urlMatch[1]) {
         document.body.classList.remove('images-loading');
@@ -357,18 +396,15 @@ function preloadBackgroundImages() {
         return;
     }
     
-    // Preload the image
     const img = new Image();
     img.src = urlMatch[1];
     
-    // When the image is loaded, add a class to the body
     img.onload = function() {
         document.body.classList.remove('images-loading');
         document.body.classList.add('bg-loaded');
         console.log('Background image loaded');
     };
     
-    // If image takes too long, still remove loading class after 3 seconds
     setTimeout(() => {
         if (document.body.classList.contains('images-loading')) {
             document.body.classList.remove('images-loading');
@@ -377,30 +413,52 @@ function preloadBackgroundImages() {
         }
     }, 3000);
     
-    // Preload all other images
     preloadContentImages();
 }
 
-// Preload content images
 function preloadContentImages() {
-    // Find all images that aren't already loaded
     const images = document.querySelectorAll('img:not([loading="eager"])');
+    let loadedImagesCount = 0;
+    const totalImages = images.length;
     
-    // Add lazy loading attribute to all images
     images.forEach(img => {
         if (!img.hasAttribute('loading')) {
             img.setAttribute('loading', 'lazy');
         }
         
-        // Add width and height if not present to prevent layout shifts
         if (!img.hasAttribute('width') && !img.hasAttribute('height')) {
             img.style.maxWidth = '100%';
             img.style.height = 'auto';
         }
+        
+        img.addEventListener('load', function() {
+            this.classList.add('loaded');
+            loadedImagesCount++;
+            
+            if (this.closest('.about-image')) {
+                const aboutImageContainer = this.closest('.about-image');
+                aboutImageContainer.style.opacity = '1';
+            }
+            
+            if (loadedImagesCount === totalImages) {
+                document.body.classList.add('images-loaded');
+            }
+        });
+        
+        img.addEventListener('error', function() {
+            loadedImagesCount++;
+            
+            if (this.closest('.about-image')) {
+                this.closest('.about-image').classList.add('image-error');
+            }
+            
+            if (loadedImagesCount === totalImages) {
+                document.body.classList.add('images-loaded');
+            }
+        });
     });
 }
 
-// Debounce function to limit how often a function is called during events like scrolling
 function debounce(func, wait = 10, immediate = true) {
     let timeout;
     return function() {
@@ -416,7 +474,6 @@ function debounce(func, wait = 10, immediate = true) {
     };
 }
 
-// Initialize mobile menu
 function initMobileMenu() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const nav = document.querySelector('nav');
@@ -429,8 +486,7 @@ function initMobileMenu() {
         nav.classList.toggle('active');
         body.classList.toggle('mobile-menu-open');
     });
-    
-    // Close mobile menu when clicking on a link
+
     const navLinks = document.querySelectorAll('nav ul li a');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
@@ -439,8 +495,7 @@ function initMobileMenu() {
             body.classList.remove('mobile-menu-open');
         });
     });
-    
-    // Close mobile menu when clicking outside
+
     document.addEventListener('click', function(event) {
         const isClickInsideNav = event.target.closest('nav');
         const isClickOnMenuBtn = event.target.closest('.mobile-menu-btn');

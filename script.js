@@ -340,25 +340,38 @@ function parallaxEffect() {
     const hero = document.getElementById('hero');
     
     if (hero) {
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.pageYOffset;
-            hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
-        });
+        // Disable parallax on mobile for better performance
+        const isMobile = window.innerWidth < 768;
+        
+        if (!isMobile) {
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.pageYOffset;
+                requestAnimationFrame(() => {
+                    hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+                });
+            });
+        }
     }
 }
 
 function revealSections() {
     const sections = document.querySelectorAll('section');
     
+    // Use different thresholds for mobile and desktop
+    const isMobile = window.innerWidth < 768;
+    
     const revealOptions = {
-        threshold: 0.15,
-        rootMargin: '0px'
+        threshold: isMobile ? 0.05 : 0.15,
+        rootMargin: isMobile ? '0px 0px -50px 0px' : '0px'
     };
     
     const revealSection = (entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
+                // Use requestAnimationFrame for smoother animations
+                requestAnimationFrame(() => {
+                    entry.target.classList.add('revealed');
+                });
                 observer.unobserve(entry.target);
             }
         });
@@ -366,10 +379,24 @@ function revealSections() {
     
     const sectionObserver = new IntersectionObserver(revealSection, revealOptions);
     
-    sections.forEach(section => {
+    // Don't apply animations to all sections on mobile to improve performance
+    const sectionsToAnimate = isMobile ? 
+        Array.from(sections).filter(section => !section.id.includes('hero')) : 
+        sections;
+    
+    sectionsToAnimate.forEach(section => {
         section.classList.add('section-hidden');
         sectionObserver.observe(section);
     });
+    
+    // Add resize handler to adjust for orientation changes
+    window.addEventListener('resize', debounce(() => {
+        const newIsMobile = window.innerWidth < 768;
+        if (newIsMobile !== isMobile) {
+            // Refresh the page if orientation changes significantly
+            location.reload();
+        }
+    }, 250));
 }
 
 function animateFeatures() {
@@ -385,6 +412,7 @@ function preloadBackgroundImages() {
     if (!heroSection) return;
     
     document.body.classList.add('images-loading');
+    const isMobile = window.innerWidth < 768;
 
     const computedStyle = window.getComputedStyle(heroSection);
     const backgroundImage = computedStyle.backgroundImage;
@@ -396,22 +424,57 @@ function preloadBackgroundImages() {
         return;
     }
     
-    const img = new Image();
-    img.src = urlMatch[1];
+    // Set a shorter timeout for mobile devices
+    const timeoutDuration = isMobile ? 1500 : 3000;
     
-    img.onload = function() {
-        document.body.classList.remove('images-loading');
-        document.body.classList.add('bg-loaded');
-        console.log('Background image loaded');
-    };
-    
-    setTimeout(() => {
-        if (document.body.classList.contains('images-loading')) {
+    // Use the small image for mobile devices
+    if (isMobile) {
+        // Set the small image immediately for faster initial load
+        heroSection.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url(\'images/Image1.png\')';
+        
+        // Load the small image
+        const smallImg = new Image();
+        smallImg.src = 'images/Image1.png';
+        
+        smallImg.onload = function() {
             document.body.classList.remove('images-loading');
             document.body.classList.add('bg-loaded');
-            console.log('Background image load timeout');
+        };
+        
+        // Set a timeout in case the image doesn't load
+        setTimeout(() => {
+            if (document.body.classList.contains('images-loading')) {
+                document.body.classList.remove('images-loading');
+                document.body.classList.add('bg-loaded');
+            }
+        }, timeoutDuration);
+    } else {
+        // For desktop, load the full-size image
+        const img = new Image();
+        
+        // Use requestIdleCallback if available for non-critical operations
+        const loadImage = () => {
+            img.src = urlMatch[1];
+            
+            img.onload = function() {
+                document.body.classList.remove('images-loading');
+                document.body.classList.add('bg-loaded');
+            };
+        };
+        
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(loadImage);
+        } else {
+            setTimeout(loadImage, 0);
         }
-    }, 3000);
+        
+        setTimeout(() => {
+            if (document.body.classList.contains('images-loading')) {
+                document.body.classList.remove('images-loading');
+                document.body.classList.add('bg-loaded');
+            }
+        }, timeoutDuration);
+    }
     
     preloadContentImages();
 }
@@ -420,42 +483,105 @@ function preloadContentImages() {
     const images = document.querySelectorAll('img:not([loading="eager"])');
     let loadedImagesCount = 0;
     const totalImages = images.length;
+    const isMobile = window.innerWidth < 768;
     
+    // Set appropriate loading attribute based on device
     images.forEach(img => {
-        if (!img.hasAttribute('loading')) {
+        // Always use lazy loading on mobile
+        if (isMobile || !img.hasAttribute('loading')) {
             img.setAttribute('loading', 'lazy');
         }
         
+        // Set width and height attributes if missing to prevent layout shifts
         if (!img.hasAttribute('width') && !img.hasAttribute('height')) {
             img.style.maxWidth = '100%';
             img.style.height = 'auto';
+            
+            // Add a default aspect ratio to prevent layout shifts
+            if (!img.style.aspectRatio) {
+                img.style.aspectRatio = '16/9';
+            }
         }
         
-        img.addEventListener('load', function() {
-            this.classList.add('loaded');
-            loadedImagesCount++;
+        // Use Intersection Observer for better lazy loading
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        
+                        // Set src attribute if using data-src
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                        }
+                        
+                        // Handle image load event
+                        img.addEventListener('load', function() {
+                            this.classList.add('loaded');
+                            loadedImagesCount++;
+                            
+                            if (this.closest('.about-image')) {
+                                const aboutImageContainer = this.closest('.about-image');
+                                aboutImageContainer.style.opacity = '1';
+                            }
+                            
+                            if (loadedImagesCount === totalImages) {
+                                document.body.classList.add('images-loaded');
+                            }
+                            
+                            observer.unobserve(img);
+                        });
+                        
+                        // Handle image error event
+                        img.addEventListener('error', function() {
+                            loadedImagesCount++;
+                            
+                            if (this.closest('.about-image')) {
+                                this.closest('.about-image').classList.add('image-error');
+                            }
+                            
+                            if (loadedImagesCount === totalImages) {
+                                document.body.classList.add('images-loaded');
+                            }
+                            
+                            observer.unobserve(img);
+                        });
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px',
+                threshold: 0.01
+            });
             
-            if (this.closest('.about-image')) {
-                const aboutImageContainer = this.closest('.about-image');
-                aboutImageContainer.style.opacity = '1';
-            }
+            imageObserver.observe(img);
+        } else {
+            // Fallback for browsers without Intersection Observer
+            img.addEventListener('load', function() {
+                this.classList.add('loaded');
+                loadedImagesCount++;
+                
+                if (this.closest('.about-image')) {
+                    const aboutImageContainer = this.closest('.about-image');
+                    aboutImageContainer.style.opacity = '1';
+                }
+                
+                if (loadedImagesCount === totalImages) {
+                    document.body.classList.add('images-loaded');
+                }
+            });
             
-            if (loadedImagesCount === totalImages) {
-                document.body.classList.add('images-loaded');
-            }
-        });
-        
-        img.addEventListener('error', function() {
-            loadedImagesCount++;
-            
-            if (this.closest('.about-image')) {
-                this.closest('.about-image').classList.add('image-error');
-            }
-            
-            if (loadedImagesCount === totalImages) {
-                document.body.classList.add('images-loaded');
-            }
-        });
+            img.addEventListener('error', function() {
+                loadedImagesCount++;
+                
+                if (this.closest('.about-image')) {
+                    this.closest('.about-image').classList.add('image-error');
+                }
+                
+                if (loadedImagesCount === totalImages) {
+                    document.body.classList.add('images-loaded');
+                }
+            });
+        }
     });
 }
 

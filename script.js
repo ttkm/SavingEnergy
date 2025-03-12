@@ -1,6 +1,5 @@
-// Wait for the DOM to be fully loaded
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Menu Toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const nav = document.querySelector('nav');
     const body = document.body;
@@ -13,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Close mobile menu when clicking outside
     document.addEventListener('click', function(e) {
         if (nav.classList.contains('active') && 
             !nav.contains(e.target) && 
@@ -24,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Close mobile menu when clicking on a nav link
     const navLinks = document.querySelectorAll('nav ul li a');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
@@ -35,15 +32,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
-    // Enhanced smooth scrolling for anchor links
+
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
     
     anchorLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Close mobile menu if open
             if (nav && nav.classList.contains('active')) {
                 mobileMenuBtn.classList.remove('active');
                 nav.classList.remove('active');
@@ -68,12 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Add scroll indicator with improved styling
     const scrollIndicator = document.createElement('div');
     scrollIndicator.className = 'scroll-indicator';
     document.body.appendChild(scrollIndicator);
     
-    // Add back to top button with improved animation
     const backToTopBtn = document.createElement('div');
     backToTopBtn.className = 'back-to-top';
     backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
@@ -87,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     window.addEventListener('scroll', function() {
-        // Update scroll indicator
         const scrollPosition = window.scrollY;
         const totalHeight = document.body.scrollHeight - window.innerHeight;
         const scrollPercentage = (scrollPosition / totalHeight) * 100;
@@ -149,7 +141,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Add form validation before submit
         contactForm.addEventListener('submit', function(e) {
             let isValid = true;
             const emailInput = document.getElementById('email');
@@ -340,7 +331,6 @@ function parallaxEffect() {
     const hero = document.getElementById('hero');
     
     if (hero) {
-        // Disable parallax on mobile for better performance
         const isMobile = window.innerWidth < 768;
         
         if (!isMobile) {
@@ -357,7 +347,6 @@ function parallaxEffect() {
 function revealSections() {
     const sections = document.querySelectorAll('section');
     
-    // Use different thresholds for mobile and desktop
     const isMobile = window.innerWidth < 768;
     
     const revealOptions = {
@@ -368,7 +357,6 @@ function revealSections() {
     const revealSection = (entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Use requestAnimationFrame for smoother animations
                 requestAnimationFrame(() => {
                     entry.target.classList.add('revealed');
                 });
@@ -379,7 +367,6 @@ function revealSections() {
     
     const sectionObserver = new IntersectionObserver(revealSection, revealOptions);
     
-    // Don't apply animations to all sections on mobile to improve performance
     const sectionsToAnimate = isMobile ? 
         Array.from(sections).filter(section => !section.id.includes('hero')) : 
         sections;
@@ -389,11 +376,9 @@ function revealSections() {
         sectionObserver.observe(section);
     });
     
-    // Add resize handler to adjust for orientation changes
     window.addEventListener('resize', debounce(() => {
         const newIsMobile = window.innerWidth < 768;
         if (newIsMobile !== isMobile) {
-            // Refresh the page if orientation changes significantly
             location.reload();
         }
     }, 250));
@@ -424,15 +409,11 @@ function preloadBackgroundImages() {
         return;
     }
     
-    // Set a shorter timeout for mobile devices
     const timeoutDuration = isMobile ? 1500 : 3000;
     
-    // Use the small image for mobile devices
     if (isMobile) {
-        // Set the small image immediately for faster initial load
         heroSection.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url(\'images/Image1.png\')';
         
-        // Load the small image
         const smallImg = new Image();
         smallImg.src = 'images/Image1.png';
         
@@ -441,7 +422,6 @@ function preloadBackgroundImages() {
             document.body.classList.add('bg-loaded');
         };
         
-        // Set a timeout in case the image doesn't load
         setTimeout(() => {
             if (document.body.classList.contains('images-loading')) {
                 document.body.classList.remove('images-loading');
@@ -449,10 +429,8 @@ function preloadBackgroundImages() {
             }
         }, timeoutDuration);
     } else {
-        // For desktop, load the full-size image
         const img = new Image();
-        
-        // Use requestIdleCallback if available for non-critical operations
+
         const loadImage = () => {
             img.src = urlMatch[1];
             
@@ -485,37 +463,30 @@ function preloadContentImages() {
     const totalImages = images.length;
     const isMobile = window.innerWidth < 768;
     
-    // Set appropriate loading attribute based on device
     images.forEach(img => {
-        // Always use lazy loading on mobile
         if (isMobile || !img.hasAttribute('loading')) {
             img.setAttribute('loading', 'lazy');
         }
         
-        // Set width and height attributes if missing to prevent layout shifts
         if (!img.hasAttribute('width') && !img.hasAttribute('height')) {
             img.style.maxWidth = '100%';
             img.style.height = 'auto';
             
-            // Add a default aspect ratio to prevent layout shifts
             if (!img.style.aspectRatio) {
                 img.style.aspectRatio = '16/9';
             }
         }
         
-        // Use Intersection Observer for better lazy loading
         if ('IntersectionObserver' in window) {
             const imageObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const img = entry.target;
                         
-                        // Set src attribute if using data-src
                         if (img.dataset.src) {
                             img.src = img.dataset.src;
                         }
                         
-                        // Handle image load event
                         img.addEventListener('load', function() {
                             this.classList.add('loaded');
                             loadedImagesCount++;
@@ -532,7 +503,6 @@ function preloadContentImages() {
                             observer.unobserve(img);
                         });
                         
-                        // Handle image error event
                         img.addEventListener('error', function() {
                             loadedImagesCount++;
                             
@@ -555,7 +525,6 @@ function preloadContentImages() {
             
             imageObserver.observe(img);
         } else {
-            // Fallback for browsers without Intersection Observer
             img.addEventListener('load', function() {
                 this.classList.add('loaded');
                 loadedImagesCount++;

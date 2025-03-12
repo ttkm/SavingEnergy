@@ -1,6 +1,3 @@
-/* 
-* Saving Energy Solutions - Styles
-*/
 
 :root {
 
@@ -477,7 +474,6 @@ nav.active ul {
   color: var(--primary-color);
 }
 
-/* About Section */
 .about-content {
   display: grid;
   grid-template-columns: 3fr 2fr;

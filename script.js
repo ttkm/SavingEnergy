@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
+    
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
     
     anchorLinks.forEach(link => {
@@ -331,35 +331,25 @@ function parallaxEffect() {
     const hero = document.getElementById('hero');
     
     if (hero) {
-        const isMobile = window.innerWidth < 768;
-        
-        if (!isMobile) {
-            window.addEventListener('scroll', () => {
-                const scrollPosition = window.pageYOffset;
-                requestAnimationFrame(() => {
-                    hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
-                });
-            });
-        }
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.pageYOffset;
+            hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+        });
     }
 }
 
 function revealSections() {
     const sections = document.querySelectorAll('section');
     
-    const isMobile = window.innerWidth < 768;
-    
     const revealOptions = {
-        threshold: isMobile ? 0.05 : 0.15,
-        rootMargin: isMobile ? '0px 0px -50px 0px' : '0px'
+        threshold: 0.15,
+        rootMargin: '0px'
     };
     
     const revealSection = (entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                requestAnimationFrame(() => {
-                    entry.target.classList.add('revealed');
-                });
+                entry.target.classList.add('revealed');
                 observer.unobserve(entry.target);
             }
         });
@@ -367,21 +357,10 @@ function revealSections() {
     
     const sectionObserver = new IntersectionObserver(revealSection, revealOptions);
     
-    const sectionsToAnimate = isMobile ? 
-        Array.from(sections).filter(section => !section.id.includes('hero')) : 
-        sections;
-    
-    sectionsToAnimate.forEach(section => {
+    sections.forEach(section => {
         section.classList.add('section-hidden');
         sectionObserver.observe(section);
     });
-    
-    window.addEventListener('resize', debounce(() => {
-        const newIsMobile = window.innerWidth < 768;
-        if (newIsMobile !== isMobile) {
-            location.reload();
-        }
-    }, 250));
 }
 
 function animateFeatures() {
@@ -397,7 +376,6 @@ function preloadBackgroundImages() {
     if (!heroSection) return;
     
     document.body.classList.add('images-loading');
-    const isMobile = window.innerWidth < 768;
 
     const computedStyle = window.getComputedStyle(heroSection);
     const backgroundImage = computedStyle.backgroundImage;
@@ -409,50 +387,22 @@ function preloadBackgroundImages() {
         return;
     }
     
-    const timeoutDuration = isMobile ? 1500 : 3000;
+    const img = new Image();
+    img.src = urlMatch[1];
     
-    if (isMobile) {
-        heroSection.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url(\'images/Image1.png\')';
-        
-        const smallImg = new Image();
-        smallImg.src = 'images/Image1.png';
-        
-        smallImg.onload = function() {
+    img.onload = function() {
+        document.body.classList.remove('images-loading');
+        document.body.classList.add('bg-loaded');
+        console.log('Background image loaded');
+    };
+    
+    setTimeout(() => {
+        if (document.body.classList.contains('images-loading')) {
             document.body.classList.remove('images-loading');
             document.body.classList.add('bg-loaded');
-        };
-        
-        setTimeout(() => {
-            if (document.body.classList.contains('images-loading')) {
-                document.body.classList.remove('images-loading');
-                document.body.classList.add('bg-loaded');
-            }
-        }, timeoutDuration);
-    } else {
-        const img = new Image();
-
-        const loadImage = () => {
-            img.src = urlMatch[1];
-            
-            img.onload = function() {
-                document.body.classList.remove('images-loading');
-                document.body.classList.add('bg-loaded');
-            };
-        };
-        
-        if ('requestIdleCallback' in window) {
-            requestIdleCallback(loadImage);
-        } else {
-            setTimeout(loadImage, 0);
+            console.log('Background image load timeout');
         }
-        
-        setTimeout(() => {
-            if (document.body.classList.contains('images-loading')) {
-                document.body.classList.remove('images-loading');
-                document.body.classList.add('bg-loaded');
-            }
-        }, timeoutDuration);
-    }
+    }, 3000);
     
     preloadContentImages();
 }
@@ -461,96 +411,42 @@ function preloadContentImages() {
     const images = document.querySelectorAll('img:not([loading="eager"])');
     let loadedImagesCount = 0;
     const totalImages = images.length;
-    const isMobile = window.innerWidth < 768;
     
     images.forEach(img => {
-        if (isMobile || !img.hasAttribute('loading')) {
+        if (!img.hasAttribute('loading')) {
             img.setAttribute('loading', 'lazy');
         }
         
         if (!img.hasAttribute('width') && !img.hasAttribute('height')) {
             img.style.maxWidth = '100%';
             img.style.height = 'auto';
-            
-            if (!img.style.aspectRatio) {
-                img.style.aspectRatio = '16/9';
-            }
         }
         
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        
-                        if (img.dataset.src) {
-                            img.src = img.dataset.src;
-                        }
-                        
-                        img.addEventListener('load', function() {
-                            this.classList.add('loaded');
-                            loadedImagesCount++;
-                            
-                            if (this.closest('.about-image')) {
-                                const aboutImageContainer = this.closest('.about-image');
-                                aboutImageContainer.style.opacity = '1';
-                            }
-                            
-                            if (loadedImagesCount === totalImages) {
-                                document.body.classList.add('images-loaded');
-                            }
-                            
-                            observer.unobserve(img);
-                        });
-                        
-                        img.addEventListener('error', function() {
-                            loadedImagesCount++;
-                            
-                            if (this.closest('.about-image')) {
-                                this.closest('.about-image').classList.add('image-error');
-                            }
-                            
-                            if (loadedImagesCount === totalImages) {
-                                document.body.classList.add('images-loaded');
-                            }
-                            
-                            observer.unobserve(img);
-                        });
-                    }
-                });
-            }, {
-                rootMargin: '50px 0px',
-                threshold: 0.01
-            });
+        img.addEventListener('load', function() {
+            this.classList.add('loaded');
+            loadedImagesCount++;
             
-            imageObserver.observe(img);
-        } else {
-            img.addEventListener('load', function() {
-                this.classList.add('loaded');
-                loadedImagesCount++;
-                
-                if (this.closest('.about-image')) {
-                    const aboutImageContainer = this.closest('.about-image');
-                    aboutImageContainer.style.opacity = '1';
-                }
-                
-                if (loadedImagesCount === totalImages) {
-                    document.body.classList.add('images-loaded');
-                }
-            });
+            if (this.closest('.about-image')) {
+                const aboutImageContainer = this.closest('.about-image');
+                aboutImageContainer.style.opacity = '1';
+            }
             
-            img.addEventListener('error', function() {
-                loadedImagesCount++;
-                
-                if (this.closest('.about-image')) {
-                    this.closest('.about-image').classList.add('image-error');
-                }
-                
-                if (loadedImagesCount === totalImages) {
-                    document.body.classList.add('images-loaded');
-                }
-            });
-        }
+            if (loadedImagesCount === totalImages) {
+                document.body.classList.add('images-loaded');
+            }
+        });
+        
+        img.addEventListener('error', function() {
+            loadedImagesCount++;
+            
+            if (this.closest('.about-image')) {
+                this.closest('.about-image').classList.add('image-error');
+            }
+            
+            if (loadedImagesCount === totalImages) {
+                document.body.classList.add('images-loaded');
+            }
+        });
     });
 }
 

@@ -1,0 +1,355 @@
+.service-hero {
+    position: relative;
+    padding: 100px 0;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), var(--service-banner);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 0;
+    z-index: 1;
+}
+
+.service-hero h2,
+.service-hero p {
+    color: #fff;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.service-hero h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.service-hero p {
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.service-detail {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.service-detail-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.service-content {
+    flex: 1 1 65%;
+    min-width: 300px;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.service-content h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid #16a085;
+}
+
+.service-content h3 {
+    color: #16a085;
+    margin: 2rem 0 1rem;
+    font-size: 1.5rem;
+}
+
+.service-content h4 {
+    color: #2c3e50;
+    margin: 1.5rem 0 0.8rem;
+    font-size: 1.25rem;
+}
+
+.service-content p, 
+.service-content li {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.service-content ul, 
+.service-content ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.service-content ul li, 
+.service-content ol li {
+    margin-bottom: 0.8rem;
+}
+
+.service-content .btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #16a085;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.service-content .btn:hover {
+    background-color: #0d8b72;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.service-sidebar {
+    flex: 1 1 25%;
+    min-width: 250px;
+}
+
+.sidebar-widget {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.sidebar-widget h3 {
+    color: #16a085;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #e7e7e7;
+    padding-bottom: 10px;
+}
+
+.sidebar-widget p {
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.sidebar-widget.cta-widget {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+.sidebar-widget.cta-widget h3 {
+    color: #fff;
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-widget.cta-widget p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.sidebar-widget.cta-widget .btn {
+    display: block;
+    padding: 12px 15px;
+    background-color: #16a085;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.sidebar-widget.cta-widget .btn:hover {
+    background-color: #0d8b72;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.benefit-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    color: #555;
+}
+
+.benefit-list li i {
+    color: #16a085;
+    margin-right: 10px;
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+}
+
+.service-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.service-list li {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.service-list li a {
+    display: block;
+    color: #3498db;
+    text-decoration: none;
+    padding: 8px 0 8px 15px;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.service-list li a:hover {
+    border-left-color: #16a085;
+    padding-left: 20px;
+    color: #16a085;
+}
+
+.service-list li a::before {
+    content: none;
+}
+
+.service-title-container {
+    background-color: #2c3e50;
+    margin: -25px -25px 25px -25px;
+    padding: 20px 25px;
+    border-radius: 8px 8px 0 0;
+    position: relative;
+}
+
+.service-title-container h2 {
+    color: #fff !important;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.service-content .service-button-container {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.insulation-page .service-hero {
+    --service-banner: url('../images/svg/insulation-banner.svg');
+}
+
+.air-infiltration-page .service-hero {
+    --service-banner: url('../images/svg/air-infiltration-banner.svg');
+}
+
+.duct-efficiency-page .service-hero {
+    --service-banner: url('../images/svg/duct-efficiency-banner.svg');
+}
+
+@media (max-width: 768px) {
+    .service-hero {
+        padding: 80px 0;
+        background-size: 200%;
+    }
+    
+    .service-hero h2 {
+        font-size: 2.2rem;
+    }
+    
+    .service-hero p {
+        font-size: 1.1rem;
+    }
+    
+    .service-detail {
+        padding: 40px 15px;
+    }
+    
+    .service-detail-container {
+        padding: 0 10px;
+    }
+    
+    .service-content {
+        padding: 0 0 25px 0;
+    }
+    
+    .service-title-container {
+        margin: 0 0 25px 0;
+        border-radius: 8px;
+        padding: 20px 25px;
+    }
+    
+    .service-content h3 {
+        font-size: 1.3rem;
+        padding: 0 25px;
+    }
+    
+    .service-content h4 {
+        font-size: 1.1rem;
+        padding: 0 25px;
+    }
+    
+    .service-content p, 
+    .service-content ul,
+    .service-content ol {
+        padding: 0 25px;
+    }
+    
+    .service-content div[style] {
+        padding: 0 25px;
+    }
+    
+    .service-content .btn {
+        margin: 0;
+        display: inline-block;
+    }
+    
+    .service-content .service-button-container {
+        padding: 0 25px;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .service-hero {
+        padding: 70px 0;
+        background-size: 250%;
+    }
+    
+    .service-hero h2 {
+        font-size: 1.8rem;
+    }
+    
+    .service-hero p {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+    
+    .service-detail {
+        padding: 30px 10px;
+    }
+    
+    .service-detail-container {
+        padding: 0 5px;
+    }
+    
+    .service-content h3 {
+        font-size: 1.2rem;
+        padding: 0 20px;
+    }
+    
+    .service-content h4 {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+    
+    .service-content p, 
+    .service-content ul,
+    .service-content ol,
+    .service-content div[style],
+    .service-content .service-button-container {
+        padding: 0 20px;
+    }
+} 

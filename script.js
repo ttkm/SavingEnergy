@@ -1,14 +1,22 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const nav = document.querySelector('nav');
     const body = document.body;
+    let scrollY;
     
     if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', function() {
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
             this.classList.toggle('active');
             nav.classList.toggle('active');
             body.classList.toggle('mobile-menu-open');
+            
+            if (body.classList.contains('mobile-menu-open')) {
+                body.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
+            } else {
+                body.style.paddingRight = '';
+            }
         });
     }
     
@@ -16,9 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nav.classList.contains('active') && 
             !nav.contains(e.target) && 
             !mobileMenuBtn.contains(e.target)) {
-            nav.classList.remove('active');
+            
             mobileMenuBtn.classList.remove('active');
+            nav.classList.remove('active');
             body.classList.remove('mobile-menu-open');
+            body.style.paddingRight = '';
         }
     });
     
@@ -26,34 +36,26 @@ document.addEventListener('DOMContentLoaded', function() {
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
             if (nav.classList.contains('active')) {
-                nav.classList.remove('active');
                 mobileMenuBtn.classList.remove('active');
+                nav.classList.remove('active');
                 body.classList.remove('mobile-menu-open');
+                body.style.paddingRight = '';
             }
         });
     });
     
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    
+    const anchorLinks = document.querySelectorAll('a[href^="#"]:not(nav a)');
     anchorLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
-            if (nav && nav.classList.contains('active')) {
-                mobileMenuBtn.classList.remove('active');
-                nav.classList.remove('active');
-                document.body.classList.remove('menu-open');
-            }
-            
             const targetId = this.getAttribute('href');
-            
             if (targetId === '#') return;
             
             const targetElement = document.querySelector(targetId);
-            
             if (targetElement) {
                 const headerHeight = document.querySelector('header').offsetHeight;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
                 
                 window.scrollTo({
                     top: targetPosition,
@@ -364,11 +366,65 @@ function revealSections() {
 }
 
 function animateFeatures() {
-    const features = document.querySelectorAll('.feature');
+    animateAboutSection();
+}
+
+function animateAboutSection() {
+    const aboutSection = document.getElementById('about');
+    if (!aboutSection) return;
     
-    features.forEach((feature, index) => {
-        feature.style.animationDelay = `${index * 0.1}s`;
-    });
+    const aboutObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            const aboutImagesContainer = aboutSection.querySelector('.about-images-container');
+            const aboutImage = aboutSection.querySelector('.about-image');
+            const aboutImageSecondary = aboutSection.querySelector('.about-image-secondary');
+            const aboutText = aboutSection.querySelector('.about-text');
+            const aboutTextContainer = aboutSection.querySelector('.about-text-container');
+            const missionVision = aboutSection.querySelectorAll('.mission, .vision');
+            
+            if (aboutImagesContainer) {
+                setTimeout(() => {
+                    aboutImagesContainer.classList.add('revealed');
+                }, 200);
+            }
+            
+            if (aboutImage) {
+                setTimeout(() => {
+                    aboutImage.classList.add('animated');
+                    aboutImage.style.opacity = '1';
+                }, 300);
+            }
+            
+            if (aboutImageSecondary) {
+                setTimeout(() => {
+                    aboutImageSecondary.classList.add('animated');
+                    aboutImageSecondary.style.opacity = '1';
+                }, 500);
+            }
+            
+            if (aboutTextContainer) {
+                setTimeout(() => {
+                    aboutTextContainer.classList.add('animated');
+                }, 300);
+            }
+            
+            if (aboutText) {
+                setTimeout(() => {
+                    aboutText.classList.add('animated');
+                }, 200);
+            }
+            
+            missionVision.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('animated');
+                }, 600 + (index * 200));
+            });
+            
+            aboutObserver.unobserve(entries[0].target);
+        }
+    }, { threshold: 0.2 });
+    
+    aboutObserver.observe(aboutSection);
 }
 
 function preloadBackgroundImages() {
@@ -449,7 +505,6 @@ function preloadContentImages() {
         });
     });
 }
-
 function debounce(func, wait = 10, immediate = true) {
     let timeout;
     return function() {
@@ -498,3 +553,5 @@ function initMobileMenu() {
         }
     });
 }
+
+

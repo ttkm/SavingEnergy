@@ -10,6 +10,9 @@ A modern, responsive website for Saving Energy Solutions, an energy conservation
 - Contact form integration
 - Interactive service cards and testimonials
 - Accessible navigation
+- Dedicated service pages with SVG banner graphics
+- Mobile-friendly navigation menu
+- Smooth scrolling and page indicators
 
 ## Project Structure
 
@@ -20,12 +23,20 @@ saving-energy-solutions/
 │   ├── layout.css        # Layout styles
 │   ├── components.css    # Component styles
 │   ├── animations.css    # Animations and transitions
-│   └── responsive.css    # Media queries
+│   ├── responsive.css    # Media queries
+│   └── service-pages.css # Service page specific styles
 ├── images/
-│   ├── logo.png
-│   └── Image1.png
-├── index.html
-├── script.js
+│   ├── logo.png, logo.jpg
+│   ├── Image1.png, Work.png, DUCT.png
+│   └── svg/
+│       ├── insulation-banner.svg
+│       ├── air-infiltration-banner.svg
+│       └── duct-efficiency-banner.svg
+├── index.html            # Main homepage
+├── insulation.html       # Insulation services page
+├── air-infiltration.html # Air infiltration services page
+├── duct-efficiency.html  # Duct efficiency services page
+├── script.js             # Main JavaScript functionality
 └── README.md
 ```
 
@@ -33,9 +44,11 @@ saving-energy-solutions/
 
 - HTML5
 - CSS3 (with modern features like CSS Grid and Flexbox)
-- JavaScript (Vanilla)
+- JavaScript (Vanilla ES6+)
+- SVG for scalable graphics
 - Font Awesome for icons
 - Google Fonts
+- Responsive design principles
 
 ## Browser Support
 
@@ -44,3 +57,14 @@ The website is compatible with:
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
+- Mobile browsers (iOS Safari, Android Chrome)
+
+## Key Features
+
+- **Responsive Layout**: Adapts to different screen sizes from desktop to mobile
+- **Service Pages**: Dedicated pages for each service with detailed information
+- **Mobile Navigation**: Touch-friendly navigation menu with smooth animations
+- **SVG Banners**: Vector graphics for crisp display at any resolution
+- **Performance Optimized**: Fast loading with optimized assets
+- **Scroll Indicators**: Visual feedback for page navigation
+- **Contact Form**: Integrated form with validation

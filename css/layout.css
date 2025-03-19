@@ -108,9 +108,28 @@ nav ul li a {
 .about-content {
   display: grid;
   grid-template-columns: 3fr 2fr;
-  gap: 2.5rem;
+  gap: 3rem;
   align-items: start;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-images-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+  align-self: stretch;
+  justify-content: space-between;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
 }
 
 .contact-content {

@@ -6,17 +6,13 @@
     </linearGradient>
   </defs>
   
-  <!-- Background -->
   <rect width="100%" height="100%" fill="url(#bg-gradient)" />
   
-  <!-- House outline -->
   <path d="M300 450h600v-250l-300-150-300 150z" fill="white" opacity="0.08" />
   <path d="M300 450h600v-250l-300-150-300 150z" fill="none" stroke="#fff" stroke-width="3" opacity="0.9" />
   
-  <!-- Roof -->
   <path d="M300 200l300-150 300 150" fill="none" stroke="#fff" stroke-width="5" opacity="0.9" />
   
-  <!-- Windows -->
   <g opacity="0.9">
     <rect x="400" y="250" width="100" height="80" fill="#fff" opacity="0.15" stroke="#fff" stroke-width="2" rx="4" ry="4" />
     <line x1="400" y1="290" x2="500" y2="290" stroke="#fff" stroke-width="2" />
@@ -27,13 +23,10 @@
     <line x1="750" y1="250" x2="750" y2="330" stroke="#fff" stroke-width="2" />
   </g>
   
-  <!-- Door -->
   <rect x="550" y="350" width="100" height="100" fill="#fff" opacity="0.15" stroke="#fff" stroke-width="2" rx="4" ry="4" />
   <circle cx="635" cy="400" r="4" fill="#fff" />
   
-  <!-- Air leakage visualization -->
   <g opacity="0.8">
-    <!-- Air leaks around windows -->
     <path d="M395 245c-15-15-30-15-45 0" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     <path d="M395 335c-15 15-30 15-45 0" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     <path d="M505 245c15-15 30-15 45 0" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
@@ -44,13 +37,11 @@
     <path d="M805 245c15-15 30-15 45 0" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     <path d="M805 335c15 15 30 15 45 0" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     
-    <!-- Air leaks around door -->
     <path d="M545 350c-15-15-30-15-45 0" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     <path d="M545 450c-15 15-30 15-45 0" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     <path d="M655 350c15-15 30-15 45 0" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     <path d="M655 450c15 15 30 15 45 0" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     
-    <!-- Air leaks from roof -->
     <path d="M400 200c0-20-20-30-40-20" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     <path d="M500 180c0-20-10-30-30-20" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
     <path d="M600 160c0-20-10-30-30-20" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
@@ -58,9 +49,7 @@
     <path d="M800 200c0-20 20-30 40-20" fill="none" stroke="#66ccff" stroke-width="2" stroke-dasharray="5,3" />
   </g>
   
-  <!-- Wind visualization -->
   <g opacity="0.6">
-    <!-- Wind outside house -->
     <path d="M100 150c50-20 100-10 150 20" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" />
     <path d="M120 250c50-20 100-10 150 20" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" />
     <path d="M140 350c50-20 100-10 150 20" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" />
@@ -70,7 +59,6 @@
     <path d="M910 350c50-20 100-10 150 20" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" />
   </g>
   
-  <!-- Air movement visualization -->
   <g opacity="0.7">
     <g transform="translate(200, 200)">
       <path d="M-15-15c8-8 22-8 30 0 8 8 8 22 0 30-8 8-22 8-30 0-8-8-8-22 0-30" fill="none" stroke="#fff" stroke-width="2" />

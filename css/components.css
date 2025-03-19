@@ -859,4 +859,38 @@ header .container {
   font-weight: 700;
   font-size: 1.1em;
   color: #ffdd00;
+}
+
+@media (max-width: 768px) {
+  .service-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .service-card:hover {
+    transform: none !important;
+  }
+  
+  .testimonial {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .contact-form-container,
+  .contact-info {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    transition: border-color 0.2s ease;
+  }
+  
+  .btn:hover {
+    transform: none !important;
+  }
 } 

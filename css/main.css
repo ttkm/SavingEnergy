@@ -51,6 +51,26 @@ body.loaded {
   opacity: 1;
 }
 
+@media (max-width: 768px) {
+  body {
+    opacity: 1;
+    transition: none;
+  }
+  
+  body.is-mobile {
+    opacity: 1;
+  }
+  
+  body.is-mobile * {
+    transition-duration: 0.2s !important;
+  }
+  
+  section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--heading-font);
   font-weight: 700;

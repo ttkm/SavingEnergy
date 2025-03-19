@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        document.body.classList.add('is-mobile');
+        document.body.classList.add('loaded');
+        document.body.classList.add('bg-loaded');
+        document.body.classList.add('images-loaded');
+    }
+    
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const nav = document.querySelector('nav');
     const body = document.body;
@@ -235,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     setTimeout(() => {
         document.body.classList.add('loaded');
-    }, 300);
+    }, isMobile ? 100 : 300);
     
     preloadBackgroundImages();
 });
@@ -333,15 +342,36 @@ function parallaxEffect() {
     const hero = document.getElementById('hero');
     
     if (hero) {
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.pageYOffset;
-            hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+        const isMobile = window.innerWidth <= 768;
+        
+        if (!isMobile) {
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.pageYOffset;
+                hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+            });
+        } else {
+            hero.style.backgroundPositionY = 'center';
+        }
+        
+        window.addEventListener('resize', () => {
+            const isMobileNow = window.innerWidth <= 768;
+            if (isMobileNow) {
+                hero.style.backgroundPositionY = 'center';
+            }
         });
     }
 }
 
 function revealSections() {
     const sections = document.querySelectorAll('section');
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        sections.forEach(section => {
+            section.classList.add('revealed');
+        });
+        return;
+    }
     
     const revealOptions = {
         threshold: 0.15,
@@ -372,6 +402,21 @@ function animateFeatures() {
 function animateAboutSection() {
     const aboutSection = document.getElementById('about');
     if (!aboutSection) return;
+    
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        const elements = aboutSection.querySelectorAll('.about-images-container, .about-image, .about-image-secondary, .about-text, .about-text-container, .mission, .vision');
+        
+        elements.forEach(element => {
+            element.classList.add('animated');
+            if (element.classList.contains('about-image') || element.classList.contains('about-image-secondary')) {
+                element.style.opacity = '1';
+            }
+        });
+        
+        return;
+    }
     
     const aboutObserver = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
@@ -431,6 +476,14 @@ function preloadBackgroundImages() {
     const heroSection = document.getElementById('hero');
     if (!heroSection) return;
     
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        document.body.classList.remove('images-loading');
+        document.body.classList.add('bg-loaded');
+        return;
+    }
+    
     document.body.classList.add('images-loading');
 
     const computedStyle = window.getComputedStyle(heroSection);
@@ -449,16 +502,14 @@ function preloadBackgroundImages() {
     img.onload = function() {
         document.body.classList.remove('images-loading');
         document.body.classList.add('bg-loaded');
-        console.log('Background image loaded');
     };
     
     setTimeout(() => {
         if (document.body.classList.contains('images-loading')) {
             document.body.classList.remove('images-loading');
             document.body.classList.add('bg-loaded');
-            console.log('Background image load timeout');
         }
-    }, 3000);
+    }, isMobile ? 1000 : 3000);
     
     preloadContentImages();
 }
@@ -505,6 +556,7 @@ function preloadContentImages() {
         });
     });
 }
+
 function debounce(func, wait = 10, immediate = true) {
     let timeout;
     return function() {

@@ -251,8 +251,44 @@
 
 @media (max-width: 768px) {
     .service-hero {
-        padding: 80px 0;
-        background-size: 200%;
+        height: auto;
+        min-height: 250px;
+        padding: 80px 0 40px;
+        background-attachment: scroll !important;
+    }
+    
+    .service-content {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    
+    .service-content h2,
+    .service-content p,
+    .service-detail,
+    .service-list,
+    .service-benefits,
+    .service-cta {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        animation: none !important;
+    }
+    
+    .service-title-container {
+        margin-bottom: 20px;
+    }
+    
+    .service-content .btn {
+        margin-top: 20px;
+    }
+    
+    .service-content {
+        padding: 30px 0;
+    }
+    
+    .service-detail {
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
     
     .service-hero h2 {

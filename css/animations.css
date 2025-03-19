@@ -211,4 +211,43 @@ img.loaded {
 .about-images-container.revealed {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  /* Faster animations on mobile */
+  .section-hidden {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+  }
+  
+  .revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .service-card, 
+  .testimonial,
+  .about-images-container,
+  .about-text-container,
+  .about-image,
+  .about-image-secondary,
+  .mission,
+  .vision,
+  .contact-info,
+  .contact-form-container {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  
+  .animated {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  
+  [style*="background-image"] {
+    transition: background-image 0.2s ease;
+  }
 } 
